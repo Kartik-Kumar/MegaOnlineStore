@@ -1,0 +1,106 @@
+﻿@using MegaOnlineStore.Web.HtmlHelpers
+@using PagedList;
+@using PagedList.Mvc;
+
+
+@model IPagedList<MegaOnlineStore.Entities.Product>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Product List</h2>
+
+<div class="search-container" style=" float : right">
+    @Html.Partial("_SearchPartial")
+</div>
+
+
+@*@Html.DropDownList("catagory", ViewBag.catagory as IEnumerable<SelectListItem>)
+*@
+
+@{Html.RenderAction("RendorCatagoryDropDown", "Products");}
+<hr />
+
+<div>
+    @{Html.RenderAction("RenderCatagoryBar", "Products");}
+</div>
+
+<a id="btn_add" href="@Url.Action("Cart", "Shopping")" class="btn btn-default" style="float:right">
+        Show my cart</a>
+
+
+<table class="table">
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Catagory)
+        </th>
+        
+        <th>
+            Quantity to add
+        </th>
+        <th>
+            Add to cart
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplaySort(item.Catagory, 5)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Catagory)
+    </td>
+
+    @*<td>
+            @Html.TextBoxFor(m => item.Quantity, new { @Value = 0 })
+        </td>
+        <td>
+            <a id="btn_add" href="@Url.Action("Add","Shopping",item)" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart
+            </a>
+        </td>*@
+
+    <form action="/Shopping/Add" method="post">
+        <td>
+            <input type="hidden" name="ProductID" value="@item.ProductID" />
+            <input type="hidden" name="Name" value="@item.Name" />
+            <input type="hidden" name="Description" value="@item.Description" />
+            <input type="hidden" name="Price" value="@item.Price" />
+            <input type="hidden" name="Catagory" value="@item.Catagory" />
+            <input type="number" name="Quantity" value="0" />
+            @*@@Html.EditorFor(m => item.Quantity, new { htmlAttributes = new { @class = "form-control", @Value = "0" } })*@
+        </td>
+        <td>
+            @Html.Submit("AddToCart", "btnSubmit")
+            @*@<a class="btn btn-primary myclass" href="@Url.Action("AddToCart", "Shopping", item)">Add To Cart</a>*@
+        </td>
+    </form>
+</tr>
+
+
+    }
+
+</table>
+
+
+@Html.PagedListPager(Model, page => Url.Action("List", "Products", 
+                    new { page, name = Request.QueryString["name"] }))

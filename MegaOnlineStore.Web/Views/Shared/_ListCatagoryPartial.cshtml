@@ -1,0 +1,6 @@
+﻿@using MegaOnlineStore.Web.HtmlHelpers
+<form action="/Products/List" method="get">
+    @Html.DropDownList("name")
+    <input type="submit" name="Submit" class="btn-danger" value="Search" /> 
+@*    @Html.Submit("search", "btnsubmit")
+*@</form>

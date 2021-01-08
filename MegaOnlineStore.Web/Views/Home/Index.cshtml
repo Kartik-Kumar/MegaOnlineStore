@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Mega Online Store</h1>
+    <p class="lead">Online Shopping Site for Fashion & Lifestyle in India. Buy Shoes, Clothing, Accessories and lifestyle products for women & men.</p>
+    
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>View All Products.</h2>
+        <p>
+            Get All the products list.
+            Unlock the discovering of all products.
+            <br>
+            <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">View Products</a>
+        </p>
+        
+
+    </div>
+    <div class="col-md-6">
+        <h2>Search Product</h2>
+        <p>Search your faviourate product here ...</p>
+        <div class="search-container">
+            @Html.Partial("_SearchPartial")
+        </div>
+        <div class="search-container">
+            @{Html.RenderAction("RendorCatagoryDropDown", "Products");}
+
+        </div>
+    </div>
+    
+</div>
